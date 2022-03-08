@@ -21,7 +21,7 @@ app = Flask(__name__)
 if ENV == 'dev':
     app.debug = True
     #app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.environ["PG_LOGIN"]}@localhost/marino-counts'
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URL"]
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
