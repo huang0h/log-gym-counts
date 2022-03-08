@@ -109,8 +109,8 @@ def log_one_count(date_dict, location, count):
         data = Log(date_dict, location, count)
         db.session.add(data)
         db.session.commit()
-        print("\t...added!")
-    else: print("\t...count already exists!")
+        print("  ...added!")
+    else: print("  ...count already exists!")
 
 
 
