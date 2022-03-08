@@ -1,5 +1,4 @@
 import urllib.request as ul
-import sys
 from bs4 import BeautifulSoup as soup
 #import pandas as pd
 
@@ -21,8 +20,8 @@ app = Flask(__name__)
 
 if ENV == 'dev':
     app.debug = True
-    #app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.environ["PG_LOGIN"]}@localhost/marino-counts'
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.environ["PG_LOGIN"]}@localhost/marino-counts'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -121,8 +120,7 @@ if __name__ == '__main__':
     for (date, name, count) in zip(dates, names, counts):
         log_one_count(date, name, count)
     app.debug = True
-    app.run()
-    sys.exit()
+    #app.run()
 
 
 '''
