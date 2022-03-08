@@ -1,4 +1,5 @@
 import urllib.request as ul
+import sys
 from bs4 import BeautifulSoup as soup
 #import pandas as pd
 
@@ -121,6 +122,7 @@ if __name__ == '__main__':
         log_one_count(date, name, count)
     app.debug = True
     app.run()
+    sys.exit()
 
 
 '''
