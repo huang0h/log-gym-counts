@@ -110,7 +110,8 @@ def log_one_count(date_dict, location, count):
         db.session.add(data)
         db.session.commit()
         print("  ...added!")
-    else: print("  ...count already exists!")
+    else: 
+        print("  ...count already exists!")
 
 
 
@@ -120,7 +121,9 @@ if __name__ == '__main__':
     for (date, name, count) in zip(dates, names, counts):
         log_one_count(date, name, count)
     app.debug = True
-    #app.run()
+    # prevent the script from running an app and never actually termination
+    # this way scheduler can run this periodically
+    # app.run()
 
 
 '''
