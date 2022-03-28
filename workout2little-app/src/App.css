@@ -1,0 +1,93 @@
+* {
+  	box-sizing: border-box;
+  	margin: 0;
+}
+
+body {
+  	font-family: 'Inter', 'Helvetica', sans-serif;
+}
+
+.App {
+  	display: flex;
+}
+
+/* ------ GRAPH STUFF ------ */
+
+.graph {
+	width: 70%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 100px;
+}
+
+/* ------ FORM STUFF ------ */
+:root {
+	--button-bg-base: rgb(51, 122, 204);
+	--button-bg-hover: rgb(130, 207, 243);
+}
+
+/* ANIMATIONS */
+
+@keyframes button-hover {
+	from {
+		background-color: var(--button-bg-base);
+		border-color: var(--button-bg-hover);
+	}
+	to {
+		background-color: var(--button-bg-hover);
+		border-color: var(--button-bg-base);
+	}
+}
+
+.form {
+	border: 3px solid red;
+	width: 30%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	padding: 20px;
+}
+
+.input-grid {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+
+	margin-top: 25px;
+}
+
+.input-button {
+	background-color: var(--button-bg-base);
+	border: 2px solid var(--button-bg-hover);
+	border-radius: 5px;
+
+	font-size: 1em;
+	color: rgb(255, 255, 255);
+	
+	min-width: 100px;
+	margin: 5px;
+	padding: 10px;
+}
+
+.input-button:hover {
+	animation-name: button-hover;
+	animation-duration: 0.25s;
+	animation-fill-mode: forwards;
+}
+
+button.selected {
+	background-color: rgb(140, 77, 192);
+	border: 2px solid rgb(208, 94, 223);
+}
+
+button.selected:hover {
+	animation: none;
+}
