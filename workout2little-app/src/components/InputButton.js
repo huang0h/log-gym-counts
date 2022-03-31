@@ -1,6 +1,6 @@
 import React from "react"
 
-const LocationButton = (props) => {
+const InputButton = (props) => {
     const {name, isSelected, toggle} = props
 
     return (
@@ -14,4 +14,4 @@ const LocationButton = (props) => {
     )
 }
 
-export default LocationButton
+export default InputButton

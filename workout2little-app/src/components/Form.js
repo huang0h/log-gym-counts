@@ -1,76 +1,89 @@
-import {useState} from "react"
-import LocationButton from "./LocationButton"
+import { useState, useEffect } from "react"
+import InputButton from "./InputButton"
+import DateSearch from "./DateSearch"
+import {processDates} from "../external"
 
 const Form = (props) => {
-    const [locations, setLocations] = useState(locationsArr)
 
-    /*
-        function to toggle which location is currently selected
-    */
-    function toggleSelected(event) {
-        const newLocations = []
-        locations.forEach(location => {
-            console.log(event.target.name, location)
-            newLocations.push({
-                ...location,
-                isSelected: event.target.name === location.location
-            })
-        })
-        console.log(newLocations)
-        setLocations(newLocations)
+    const {
+        toggleSelectedLocation, 
+        toggleSelectedRange, 
+        locations,
+        timeRanges,
+        passSearchRange
+    } = props
+
+    const [selfFormData, setSelfFormData] = useState([
+        {
+            month: "",
+            day: "",
+            year: "",
+        }, 
+        {
+            month: "",
+            day: "",
+            year: "",
+        }
+    ])
+
+    function submitRange(event) {
+        event.preventDefault()
+        console.log(selfFormData)
     }
 
+    function handleChange(event) {
+        const newFormData = [...selfFormData]
+        newFormData[event.target.id] = event.target.value
+        console.log(newFormData)
+        setSelfFormData(newFormData)
+    }
+    
     return (
-        <div className = "form">
+        <div className="form">
             <h2>
                 Displaying data for:
             </h2>
-            <div className = "input-grid input-buttons">
+            <div className="input-grid input-buttons">
                 {locations.map((location) => {
                     return (
-                        <LocationButton key={location.id}
-                        name={location.location}
-                        isSelected={location.isSelected}
-                        toggle = {toggleSelected}
+                        <InputButton key={location.id}
+                            name={location.location}
+                            isSelected={location.isSelected}
+                            toggle={toggleSelectedLocation}
                         />
-                    )
-                })}
+                )})}
             </div>
+            <h2>
+                From:
+            </h2>
+            <div className="input-grid input-buttons">
+                {timeRanges.map((range) => {
+                    return (
+                        <InputButton key={range.id}
+                            name={range.range}
+                            isSelected={range.isSelected}
+                            toggle={toggleSelectedRange}
+                        />
+                )})}
+            </div>
+            <form className = "range-search" onSubmit = {submitRange}>
+                <h4>
+                    or range search:
+                </h4>
+                <DateSearch value = {selfFormData[0]} name = "range-search-start"/>
+                {/* <input id = {0} className = "range-search-input" name = "range-search-start" 
+                    placeholder = "mm/dd/yyyy" value = {selfFormData[0]} onChange = {handleChange}/> */}
+                to
+                <DateSearch value = {selfFormData[1]} name = "range-search-end"/>
+                {/* <input id = {1} className = "range-search-input" name = "range-search-end" 
+                    placeholder = "mm/dd/yyyy" value = {selfFormData[1]} onChange = {handleChange} /> */}
+                <br />
+                <button className = "input-button">
+                    Go!
+                </button>
+            </form>
         </div>
     )
 }
-
-const locationsArr = [
-    {
-        id: 0,
-        location: "Marino Center - 2nd Floor",
-        isSelected: false
-    },
-    {
-        id: 1,
-        location: "Marino Center - Gymnasium",
-        isSelected: false
-    },
-    {
-        id: 2,
-        location: "Marino Center - 3rd Floor Weight Room",
-        isSelected: false
-    },
-    {
-        id: 3,
-        location: "Marino Center - 3rd Floor Select & Cardio",
-        isSelected: false
-    },
-    {
-        id: 4,
-        location: "Marino Center - Track",
-        isSelected: false
-    },
-    {
-        id: 5,
-        location: "SquashBusters - 4th Floor",
-        isSelected: false
-    }
-]
 
 export default Form;
