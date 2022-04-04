@@ -96,7 +96,7 @@ button.selected:hover {
 
 .range-search {
 	text-align: center;
-	border: 2px dotted blue;
+	/* border: 2px dotted blue; */
 }
 
 .range-search > h4 {
@@ -104,6 +104,7 @@ button.selected:hover {
 	margin-bottom: 5px;;
 }
 
-.range-search-input {
+.datesearch-inp {
 	margin: 10px;
+	width: 100px;
 }

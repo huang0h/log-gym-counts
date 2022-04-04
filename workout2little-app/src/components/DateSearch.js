@@ -1,29 +1,16 @@
 import { useState } from "react"
 
 const DateSearch = (props) => {
-    
-    const [rangeDate, setRangeDate] = useState({
-        month: "",
-        day: "",
-        year: ""
-    })
-
-    function handleDSChange(event) {
-        const newRange = {
-            ...rangeDate,
-            [event.target.name]: event.target.value
-        }
-        console.log(newRange)
-        setRangeDate(newRange)
-    }
+    const {value, handleChange, purpose} = props
+    const {month, day, year} = value
 
     return (
         <div className = "datesearch">
-            <input className = "datesearch-inp" onChange = {handleDSChange} value = {rangeDate.month}
+            <input className = "datesearch-inp" id = {purpose} onChange = {handleChange} value = {month}
             type = "text" name = "month" placeholder = "mm" />
-            <input className = "datesearch-inp" onChange = {handleDSChange} value = {rangeDate.day}
+            <input className = "datesearch-inp" id = {purpose} onChange = {handleChange} value = {day}
             type = "text" name = "day" placeholder = "dd" />
-            <input className = "datesearch-inp" onChange = {handleDSChange} value = {rangeDate.year}
+            <input className = "datesearch-inp" id = {purpose} onChange = {handleChange} value = {year}
             type = "text" name = "year" placeholder = "yyy" />
         </div>
     )
