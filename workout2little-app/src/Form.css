@@ -1,0 +1,41 @@
+/* ------ FORM STUFF ------ */
+
+.form {
+	border: 3px solid red;
+	width: 25%;
+	height: 100%;
+	align-self: flex-end;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	padding: 20px;
+}
+
+.form > h2 {
+	margin: 25px 0px;
+}
+
+.input-grid {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.range-search {
+	text-align: center;
+	/* border: 2px dotted blue; */
+}
+
+.range-search > h4 {
+	margin-top: 15px;
+	margin-bottom: 5px;;
+}
+
+.datesearch-inp {
+	margin: 10px;
+	width: 100px;
+}

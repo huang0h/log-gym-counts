@@ -1,9 +1,45 @@
 import './App.css';
 import Graph from "./components/Graph"
 import Form from "./components/Form"
+import axios from 'axios'
+import { DateTime } from 'luxon'
 
-import {useState, useEffect} from "react"
-import {locationsArr, timesArr, processDates} from "./external"
+import { useState, useEffect } from "react"
+import { getLocationMax, hours } from "./external"
+
+/*
+TO DO:
+
+! project beautification
+	- make floating counts above bars look nice
+	- bg styling
+	- form styling
+	- light/dark mode (?)
+
+! more info section
+	- about, how to use, personal links, etc.
+
+/COSMIC/ how the fuck do i make push this to live servers?
+
+--- DONE (or good enough) ---
+!!! figure out form submitting stuff
+	- validate input are numbers, real values (e.g. no month = 69), no backwards range (e.g. 3/5/100 - 3/5/9)
+	- properly set range state on submission
+	- ** gotta make it more clear when the user is viewing data from a searched range rather than a button
+
+!!!! what the ---- is wrong with the counts
+	-- incorrect querying? - logs look fine
+	-- check out query, app.py
+	** they're fine, logs are just inconsistent - oh well
+
+!!! display graph axes correctly
+	- namely the y axis - figure out how to display one, numbering, scale, range
+	- need to account for overflow if count exceeds max
+	** maybe consider upper limit greater than max? i.e. top bar is 120% max or something
+
+!! show avg count on bar hover
+	** switched to count floating above bar - faster at-a-glance, less work too
+*/
 
 function App() {
 	// state to determine the range within which to 
@@ -24,13 +60,101 @@ function App() {
 		}
 	})
 
+	const [selectedDay, setSelectedDay] = useState("")
+
+	// state to manage the data that the graph displays
+	// state is an object w/ fields for each day of the week
+	// each field is an array of objects containing count and date of logging
+	const [info, setInfo] = useState({
+		counts: {"Monday": [],
+		"Tuesday": [],
+		"Wednesday": [],
+		"Thursday": [],
+		"Friday": [],
+		"Saturday": [],
+		"Sunday": [],},
+		max: 100
+	})
+
+	// organizes the log JSON by their respective day
+	function logsToWeekdayCounts(logList) {
+		let weekdays = {
+			"Monday": [],
+			"Tuesday": [],
+			"Wednesday": [],
+			"Thursday": [],
+			"Friday": [],
+			"Saturday": [],
+			"Sunday": [],
+		}
+
+		logList.forEach(log => {
+			const day = DateTime.fromObject({month: log.month, day: log.day, year: log.year}).weekdayLong
+			weekdays[day].push(log)
+		})
+
+		return weekdays
+	}
+
+	// takes a list of Logs, then returns a list of the average counts per hour
+	// given they are all for the same day
+	function organizeCountsByHour(logList) {
+		let hourCounts = []
+		hours.forEach(ele => {
+			hourCounts.push([])
+		})
+
+		// for each log, add its count to the corresponding array in hourCounts
+		// starts at 5 AM => 5 AM corresponds to index 0
+		logList.forEach(log => {
+			hourCounts[log.hour - 5].push(log.count)
+		})
+
+		return hourCounts.map(countArr => {
+			let sum = countArr.reduce((x, y) => x + y, 0)
+			return Math.floor(sum / countArr.length || 0)
+		})
+	}
+
+	useEffect(() => {
+		// if searchQuery has invalid fields, do nothing
+		if (searchQuery.location === ""
+		|| searchQuery.start.year === -1
+		|| searchQuery.start.year === -1) {
+			return
+		}
+		// else fetch data
+		axios.get(`http://localhost:5000/submit`, {
+			params: {
+				location: searchQuery.location,
+				start: searchQuery.start,
+				end: searchQuery.end
+			}
+		})
+		.then(data => {
+			const logList = data.data.logs
+			const logsByWeekdays = logsToWeekdayCounts(logList)
+			let avgCountsByDay = {}
+			Object.keys(info.counts).forEach(key => {
+				avgCountsByDay[key] = organizeCountsByHour(logsByWeekdays[key])
+				return
+				}
+			)
+			setInfo({counts: avgCountsByDay, max: getLocationMax(searchQuery.location)})
+		})
+	}, [searchQuery])
 
 	return (
 		<div className="App">
-			<Graph />
+			<Graph info = {
+					{...info, 
+					counts: selectedDay ? info.counts[selectedDay] : []}
+				} 
+			passSelectedDay = {setSelectedDay}
+			/>
 			<Form 
-			// give Form the ability to manipulate the App's search query
-			passSearchQuery = {setSearchQuery} />
+				// give Form the ability to manipulate the App's search query
+				passSearchQuery={setSearchQuery} />
 		</div>
 	);
 }

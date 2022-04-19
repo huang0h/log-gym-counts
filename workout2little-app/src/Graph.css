@@ -1,0 +1,127 @@
+/* ------ GRAPH STUFF ------ */
+
+@keyframes bar-grow {
+	from {height: 0%;}
+	to {height: 200px;}
+}
+
+@keyframes flag-fade {
+	from {opacity: 0%;}
+	to {opacity: 100%;}
+}
+
+.graph {
+	width: 70%;
+	height: 800px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 75px 10px;
+}
+
+.graph-scale {
+	/* border: 1px solid red; */
+
+	min-height: 350px;
+	width: 100%;
+	height: 100%;
+	
+	position: absolute;
+	z-index: -1;
+
+	display: grid;
+	grid-template-rows: repeat(auto, 10);
+}
+
+.graph-grid-row {
+	border-top: 1px solid gray;
+}
+
+.graph-grid-row > p {
+	position: relative;
+	top: -25%;
+	left: -2.5%;
+}
+
+.graph-bars {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+
+	min-height: 350px;
+	width: 90%;
+	height: 100%;
+
+	position: relative;
+	border-bottom: 2px solid violet;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+}
+
+.graph-bar {
+	position: relative;
+	/* background-color: blue; */
+	background-image: linear-gradient(blue, violet);
+	/* border: 1px solid pink; */
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	bottom: 0px;
+	width: 100%;
+}
+
+.flag {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	z-index: 100;
+
+	background-color: pink;
+	animation-name: flag-fade;
+	animation-timing-function: ease-in-out;
+	animation-duration: 0.25s;
+}
+
+.flag-show {
+	display: block;
+}
+
+.flag-hide {
+	display: none;
+	animation-direction: reverse;
+}
+
+.bar-label {
+	position: absolute;
+	height: 30px;
+	font-size: 0.8rem;
+	text-align: center;
+}
+
+.bar-label-time {
+	transform: rotate(30deg);
+	bottom: -40px;
+}
+
+.bar-label-count {
+	left: 30%;
+	top: -20px;
+}
+
+/* .graph-x-label {
+	list-style-type: none;
+	font-size: 0.9em;
+}
+
+.graph-x-label > li {
+	float: left;
+	transform: rotate(20deg);
+} */
+
+.buttons {
+	margin-top: 50px;
+	align-self: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}

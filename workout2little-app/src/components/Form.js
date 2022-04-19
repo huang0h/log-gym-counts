@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
 import InputButton from "./InputButton"
-import DateSearch from "./DateSearch"
-import {processDates, locationsArr, timesArr} from "../external"
+import SearchForm from "./SearchForm"
+import {validDate, locationsArr, timesArr} from "../external"
 import { DateTime } from "luxon"
+import "../Form.css"
 
 /*
     the Form manages its own internal state in the form of locations and timeRanges
@@ -10,135 +11,150 @@ import { DateTime } from "luxon"
     using the passSearchQuery method from the props
 */
 
-
-// const pg = require('pg')
-// const PG_CONNECTION = "postgresql://hgpxdzgiautybn:c4974e71f7edf09fe9e370ecc94596e733eb2a5b75b9ef5ea189bb4a2b100382@ec2-34-231-183-74.compute-1.amazonaws.com:5432/d7cemctiq8rnjo"
-// const PG_CONNECTION = "postgresql://postgres:agb49t78@localhost/marino-counts"
-// const pgClient = new pg.Client(PG_CONNECTION)
-// pgClient.connect()
-
 const Form = (props) => {
     const { passSearchQuery } = props
-
 
     // states to manage the location, time range BUTTONS
 	// determine which are on/off
 	const [locations, setLocations] = useState(locationsArr)
 	const [timeRanges, setTimeRanges] = useState(timesArr)
+    const [query, setQuery] = useState({
+		location: "",
+		// placeholder values
+		start: {
+			month: -1,
+			day: -1,
+			year: -1
+		}, end: {
+			month: -1,
+			day: -1,
+			year: -1
+		}
+	})
 
     // form data for the range search field
-    const [selfFormData, setSelfFormData] = useState([
-        {
+    const [selfFormData, setSelfFormData] = useState({
+        start: {
             month: "",
             day: "",
             year: "",
         }, 
-        {
+        end: {
             month: "",
             day: "",
             year: "",
         }
-    ])
+    })
+
+    function luxonToObj(lux) {
+        return {
+            month: lux.month,
+            day: lux.day,
+            year: lux.year
+        }
+    }
 
     /* -------- BUTTON STUFF -------- */
     
     // on rerender, set the App search query using input from the form
-    useEffect(buttonEnterData, [locations, timeRanges])
+    useEffect(() => {
+        // console.log(query)
+        passSearchQuery(query)}, [query])
 
-    function buttonEnterData() {
-        let locationQuery = ""
-        locations.forEach(location => {
-            locationQuery = location.isSelected ? location.value : locationQuery
-        })
-
-        let timeQuery = ""
-        timeRanges.forEach(range => {
-            timeQuery = range.isSelected ? range.value : timeQuery
-        })
-        
-        let now = DateTime.now()
-        let newSearchQuery = {
-            location: locationQuery,
-            // placeholder values
-            start: {
-                month: -1,
-                day: -1,
-                year: -1
-            }, end: {
-                month: -1,
-                day: -1,
-                year: -1
+    function toggleLocationButton(event) {
+        let newLoc = ""
+        setLocations(locations.map(loc => {
+            if (event.target.name === loc.value) {
+                newLoc = loc.value
+                return  {
+                    ...loc,
+                    isSelected: true
+                }
+            } else {
+                return {
+                    ...loc,
+                    isSelected: false
+                }
             }
-        }
-
-        function luxonToObj(lux) {
-            return {
-                month: lux.month,
-                day: lux.day,
-                year: lux.year
-            }
-        }
-        
-        switch(timeQuery) {
-            case "Last week":
-                newSearchQuery.start = luxonToObj(now.minus({days: 7}).c)
-                break
-            case "Last month":
-                newSearchQuery.start = luxonToObj(now.minus({months: 1}))
-                break
-            case "Last year":
-                newSearchQuery.start = luxonToObj(now.minus({years: 1}))
-                break
-            case "All time":
-                // if this runs for more than a thousand years
-                // idk what i'll do i'll probably be dead
-                newSearchQuery.start = luxonToObj(now.minus({years: 1000}))
-                break
-        }
-        newSearchQuery.end = luxonToObj(now)
-        // console.log(newSearchQuery)
+        }))
+        setQuery({
+            ...query,
+            location: newLoc
+        })
     }
 
-    // toggle a button state when it is clicked - only one button in each group can
-    // be selected at a time
-    function toggleButton(event) {
-        const newValues = []
-        const prev = event.target.id === "location" ? locations : timeRanges
-        prev.forEach(element => {
-            newValues.push({
-                ...element,
-                isSelected: event.target.name === element.value
-            })
-        })
-        if (event.target.id === "location") {
-            setLocations(newValues)
-        } else {
-            setTimeRanges(newValues)
+    function toggleTimeRangeButton(event) {
+        // helper to convert button label into JSON
+        function strToRange(str) {
+            let now = DateTime.now()
+            switch(str) {
+                case "Last week":
+                    return luxonToObj(now.minus({days: 7}))
+                case "Last month":
+                    return luxonToObj(now.minus({months: 1}))
+                case "Last year":
+                    return luxonToObj(now.minus({years: 1}))
+                case "All time":
+                    // if this runs for more than a thousand years
+                    // idk what i'll do i'll probably be dead
+                    return luxonToObj(now.minus({years: 1000}))
+                default:
+                    return {}
+            }
         }
+
+        let newStart = {}
+        setTimeRanges(timeRanges.map(range => {
+            if (event.target.name === range.value) {
+                newStart = strToRange(range.value)
+                return {
+                    ...range,
+                    isSelected: true
+                }
+            } else {
+                return {
+                    ...range,
+                    isSelected: false
+                }
+            }
+        }))
+        setQuery({
+            ...query,
+            start: newStart,
+            end: luxonToObj(DateTime.now())
+        })
     }
 
     /* -------- DATE FORM STUFF -------- */
 
     function handleChange(event) {
-        console.log(selfFormData)
-        let index = event.target.id === "start" ? 0 : 1
-        let newFormData = [...selfFormData]
-        newFormData[index] = {...newFormData[index], [event.target.name]: event.target.value}
-        setSelfFormData(newFormData)
+        setSelfFormData({
+            ...selfFormData,
+            [event.target.id]: {
+                ...selfFormData[event.target.id],
+                [event.target.name]: event.target.value
+            }})
     }
     
-    // this will have to clear up the time buttons
-    // can just loop thru the ranges, set them all to false
     function submitRange(event) {
-        event.preventDefault()
-        // turn the time range buttons off
-        const offTimeRanges = []
-        timeRanges.forEach(range => {
-            offTimeRanges.push({...range, isSelected: false})
-        })
-        setTimeRanges(offTimeRanges)
+        function parseObj(obj) {
+            let ans = {}
+            Object.keys(obj).forEach(key => {
+                ans = {
+                    ...ans,
+                    [key]: parseInt(obj[key])
+                }
+            })
+            return ans
+        }
 
-        console.log(selfFormData)
+        event.preventDefault()
+       
+        // turn off all other time range buttons
+        setTimeRanges(timeRanges.map(range => ({...range, isSelected: false})))
+        setQuery({...query, start: parseObj(selfFormData.start), end: parseObj(selfFormData.end)}) 
+        // console.log(selfFormData)
+        // console.log(isValid)
     }
     
     return (
@@ -152,7 +168,7 @@ const Form = (props) => {
                         <InputButton key={location.id}
                             name={location.value}
                             isSelected={location.isSelected}
-                            onClick={toggleButton}
+                            onClick={toggleLocationButton}
                             purpose="location"
                         />
                 )})}
@@ -166,33 +182,92 @@ const Form = (props) => {
                         <InputButton key={range.id}
                             name={range.value}
                             isSelected={range.isSelected}
-                            onClick={toggleButton}
+                            onClick={toggleTimeRangeButton}
                             purpose="timerange"
                         />
                 )})}
             </div>
-            <form className = "range-search" onSubmit = {submitRange}>
+            <SearchForm onSubmit = {submitRange} handleChange = {handleChange} data = {selfFormData} />
+            {/* <form className = "range-search" onSubmit = {submitRange}>
                 <h4>
                     or range search:
                 </h4>
                 from
-                <DateSearch value = {selfFormData[0]} name = "range-search-start" 
+                <DateSearch value = {selfFormData.start} name = "range-search-start" 
                 handleChange = {handleChange} purpose = "start" />
-                {/* <input id = {0} className = "range-search-input" name = "range-search-start" 
-                    placeholder = "mm/dd/yyyy" value = {selfFormData[0]} onChange = {handleChange}/> */}
                 to
-                <DateSearch value = {selfFormData[1]} name = "range-search-end"
+                <DateSearch value = {selfFormData.end} name = "range-search-end"
                 handleChange = {handleChange} purpose = "end" />
-                {/* <input id = {1} className = "range-search-input" name = "range-search-end" 
-                    placeholder = "mm/dd/yyyy" value = {selfFormData[1]} onChange = {handleChange} /> */}
                 <br />
-                {/* this will attempt to  */}
                 <button className = "input-button">
                     Search range
                 </button>
-            </form>
+            </form> */}
         </div>
     )
 }
 
 export default Form;
+
+// function determineOn(objList, boolProp) {
+    //     let ans = ""
+    //     objList.forEach(obj => {
+    //         ans = obj[boolProp] ? obj.value : ans
+    //     })
+    //     return ans
+    // }
+
+    // function buttonEnterData() {
+    //     let now = DateTime.now()
+    //     let newSearchQuery = {
+    //         location: determineOn(locations, "isSelected"),
+    //         // placeholder values
+    //         start: {
+    //             month: -1,
+    //             day: -1,
+    //             year: -1
+    //         },
+    //         end: luxonToObj(now)
+    //     }
+
+    //     let timeQuery = determineOn(timeRanges, "isSelected")
+        
+    //     switch(timeQuery) {
+    //         case "Last week":
+    //             newSearchQuery.start = luxonToObj(now.minus({days: 7}))
+    //             break
+    //         case "Last month":
+    //             newSearchQuery.start = luxonToObj(now.minus({months: 1}))
+    //             break
+    //         case "Last year":
+    //             newSearchQuery.start = luxonToObj(now.minus({years: 1}))
+    //             break
+    //         case "All time":
+    //             // if this runs for more than a thousand years
+    //             // idk what i'll do i'll probably be dead
+    //             newSearchQuery.start = luxonToObj(now.minus({years: 1000}))
+    //             break
+    //         default:
+    //             break
+    //     }
+    //     // console.log(newSearchQuery)
+    //     passSearchQuery(newSearchQuery)
+    // }
+
+    // // toggle a button state when it is clicked - only one button in each group can
+    // // be selected at a time
+    // function toggleButton(event) {
+    //     const newValues = []
+    //     const prev = event.target.id === "location" ? locations : timeRanges
+    //     prev.forEach(element => {
+    //         newValues.push({
+    //             ...element,
+    //             isSelected: event.target.name === element.value
+    //         })
+    //     })
+    //     if (event.target.id === "location") {
+    //         setLocations(newValues)
+    //     } else {
+    //         setTimeRanges(newValues)
+    //     }
+    // }

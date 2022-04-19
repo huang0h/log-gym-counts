@@ -21,7 +21,8 @@ app = Flask(__name__)
 if ENV == 'dev':
     app.debug = True
     #app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.environ["PG_LOGIN"]}@localhost/marino-counts'
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+    #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('REACT_APP_PG_CONNECTION')
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -52,6 +53,20 @@ class Log(db.Model):
         self.minute = date_dict["minute"]
         self.count = count
         self.hash = f"{date_dict}|{location}|{count}"
+
+    def to_dict(self):
+        return {
+            "location": self.location,
+            "month": self.month,
+            "day": self.day,
+            "year": self.year,
+            "hour": self.hour,
+            "minute": self.minute,
+            "count": self.count,
+        }
+
+    def stringify(self):
+        return f"------Count #{self.id}------\nLocation: {self.location}\nMonth: {self.month}\nDay: {self.day}\nHour: {self.hour}\nCount: {self.count}"
 
 def hour_to_military(hour, meridiem):
     if meridiem.upper() == "PM":
@@ -123,7 +138,7 @@ if __name__ == '__main__':
     app.debug = True
     # prevent the script from running an app and never actually termination
     # this way scheduler can run this periodically
-    # app.run()
+    app.run()
 
 
 '''
