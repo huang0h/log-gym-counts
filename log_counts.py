@@ -138,7 +138,7 @@ if __name__ == '__main__':
     app.debug = True
     # prevent the script from running an app and never actually termination
     # this way scheduler can run this periodically
-    app.run()
+    # app.run()
 
 
 '''
