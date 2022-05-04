@@ -108,7 +108,7 @@ function App() {
 			// `http://localhost:5000/submit`,
 
 			// for live deployment
-			'http://log-gym-counts.herokuapp.com/submit',
+			'https://log-gym-counts.herokuapp.com/submit',
 			{
 			params: {
 				location: searchQuery.location,

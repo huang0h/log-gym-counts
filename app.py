@@ -14,6 +14,7 @@ app = Flask(__name__, static_folder = "workout2little-app/build")
 # CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('REACT_APP_PG_CONNECTION')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.debug = False
 
 db = SQLAlchemy(app)
 all_logs = Log.query
