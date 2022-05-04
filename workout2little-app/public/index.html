@@ -15,43 +15,4 @@
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root"></div>
 </body>
-
-<script>
-	// given that the string is a valid date, up until the last
-	// character, verify that the last character is okay
-	// valid date: mm/dd/yyyy
-	// function processDates(str) {
-	// 	function verifyMonth(str) {
-	// 		return parseInt(str) > 0 && parseInt(str) <= 12
-	// 	}
-
-	// 	function verifyDay(str) {
-	// 		return parseInt(str) > 0 && parseInt(str) <= 31
-	// 	}
-
-	// 	const numbers = "0123456789"
-	// 	switch(str.length) {
-	// 		case 1:
-	// 			// if first and only char is a number, return it, else nothing
-	// 			return numbers.search(str) >= 0 ? str : ""
-	// 			break
-	// 		// know the first character is a number
-	// 		case 2:
-	// 			// if the user entered a number, then slash, it denotes a month, so return "0{month}/":
-	// 			// need to make sure it's not "0/" - nonsense
-	// 			if (str.substring(1) == "/") {
-	// 				return str.substring(0, 1) != "0" ? `0${str}` : str.substring(0, 1)
-	// 			} else {
-	// 				return verifyMonth(str) ? `${str}/` : str.substring(0, 1)
-	// 			}
-	// 			break
-	// 		// know the first three are valid month: either 1{0, 1, 2}/ or {month}/
-	// 		case 4:
-	// 			return numbers.search(str.substring(3)) >= 0 ? str : str.substring(0, 3)
-	// 		default: 
-	// 			return ""
-	// 	}
-	// }
-</script>
-
 </html>

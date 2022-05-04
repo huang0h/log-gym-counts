@@ -9,7 +9,7 @@ import json
 
 load_dotenv()
 
-app = Flask(__name__, static_folder = "workout2little-app/public")
+app = Flask(__name__, static_url_path = '', static_folder = "workout2little-app/build")
 # for development 
 # CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('REACT_APP_PG_CONNECTION')
