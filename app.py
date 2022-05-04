@@ -44,3 +44,6 @@ def submit():
     return {
         "logs": [log.to_dict() for log in logs]
     }
+
+if __name__ == '__main__':
+    app.run()
