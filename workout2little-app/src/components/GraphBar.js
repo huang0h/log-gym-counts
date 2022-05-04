@@ -17,9 +17,9 @@ const GraphBar = (props) => {
             <p className = "bar-label bar-label-time">
                 {label}
             </p>
-            {count > 0 && <p className = "bar-label bar-label-count">
-                {count}
-            </p>}
+            <p className = "bar-label bar-label-count">
+                {count <= 0 ? "N/A" : count}
+            </p>
             {/* <HoverFlag count = {count} max = {max} className = {flag ? "flag-show" : "flag-hide"}
             position = {useMousePosition()} /> */}
         </motion.div>

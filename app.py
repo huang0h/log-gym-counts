@@ -1,5 +1,6 @@
 from flask import Flask, send_from_directory, request
-from flask_cors import CORS
+# import for development
+# from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from log_counts import Log
 from dotenv import load_dotenv
@@ -9,23 +10,13 @@ import json
 load_dotenv()
 
 app = Flask(__name__, static_folder = "workout2little-app/public")
-CORS(app)
+# for development 
+# CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('REACT_APP_PG_CONNECTION')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 all_logs = Log.query
-
-# test stuff
-# t_location = "Marino Center - 3rd Floor Select & Cardio"
-# t_start = { "month": 4, "day": 7, "year": 2021 }
-# t_end = { "month": 4, "day": 7, "year": 2022 }
-
-# test = list(filter(lambda l : is_valid_log(t_location, t_start, t_end, l), Log.query))
-# test2 = Log.query.filter_by(location = "Marino Center - 3rd Floor Select & Cardio").all()
-# print(Log.query.all())
-# print([t.to_dict() for t in test])
-# print([t.to_dict() for t in test2])
 
 def is_valid_log(location, start_dict, end_dict, log: Log) -> bool:
     start_tuple = (start_dict["year"], start_dict["month"], start_dict["day"])

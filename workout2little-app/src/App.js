@@ -18,27 +18,6 @@ TO DO:
 
 ! more info section
 	- about, how to use, personal links, etc.
-
-/COSMIC/ how the fuck do i make push this to live servers?
-
---- DONE (or good enough) ---
-!!! figure out form submitting stuff
-	- validate input are numbers, real values (e.g. no month = 69), no backwards range (e.g. 3/5/100 - 3/5/9)
-	- properly set range state on submission
-	- ** gotta make it more clear when the user is viewing data from a searched range rather than a button
-
-!!!! what the ---- is wrong with the counts
-	-- incorrect querying? - logs look fine
-	-- check out query, app.py
-	** they're fine, logs are just inconsistent - oh well
-
-!!! display graph axes correctly
-	- namely the y axis - figure out how to display one, numbering, scale, range
-	- need to account for overflow if count exceeds max
-	** maybe consider upper limit greater than max? i.e. top bar is 120% max or something
-
-!! show avg count on bar hover
-	** switched to count floating above bar - faster at-a-glance, less work too
 */
 
 function App() {
@@ -124,7 +103,13 @@ function App() {
 			return
 		}
 		// else fetch data
-		axios.get(`http://localhost:5000/submit`, {
+		axios.get(
+			// for development testing
+			// `http://localhost:5000/submit`,
+
+			// for live deployment
+			'http://log-gym-counts.herokuapp.com/submit',
+			{
 			params: {
 				location: searchQuery.location,
 				start: searchQuery.start,

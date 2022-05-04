@@ -62,7 +62,10 @@
 .graph-bar {
 	position: relative;
 	/* background-color: blue; */
-	background-image: linear-gradient(blue, violet);
+	background-image: repeating-linear-gradient(violet, blue, violet);
+	background-size: auto 600px;
+	background-position: center bottom;
+	/* background-repeat: no-repeat; */
 	/* border: 1px solid pink; */
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
@@ -94,7 +97,7 @@
 .bar-label {
 	position: absolute;
 	height: 30px;
-	font-size: 0.8rem;
+	font-size: 0.85rem;
 	text-align: center;
 }
 
@@ -104,7 +107,10 @@
 }
 
 .bar-label-count {
-	left: 30%;
+	font-weight: bold;
+	width: 15px;
+	left: 50%;
+	margin-left: -8px;
 	top: -20px;
 }
 

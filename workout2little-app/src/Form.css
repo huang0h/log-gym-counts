@@ -1,16 +1,16 @@
 /* ------ FORM STUFF ------ */
 
 .form {
-	border: 3px solid red;
+	/* border: 3px solid red; */
 	width: 25%;
 	height: 100%;
-	align-self: flex-end;
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	
 	padding: 20px;
+	margin-top: -40px;
 }
 
 .form > h2 {

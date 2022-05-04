@@ -11,14 +11,14 @@
 
 body {
   	font-family: 'Inter', 'Helvetica', sans-serif;
-	/* background-color: rgb(45, 54, 58);
-	color: white; */
+	background-color: rgb(255,248,231);
+	/* color: white; */
 }
 
 .App {
   	display: flex;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: center;
 	margin-top: 50px;
 	/* flex-direction: column; */
 }
