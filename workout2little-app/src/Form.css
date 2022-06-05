@@ -1,13 +1,12 @@
 /* ------ FORM STUFF ------ */
-
 .form {
 	/* border: 3px solid red; */
 	width: 25%;
 	height: 100%;
 
 	display: flex;
-	flex-direction: column;
 	align-items: center;
+	flex-direction: column;
 	
 	padding: 20px;
 	margin-top: -40px;
@@ -20,7 +19,6 @@
 .input-grid {
 	display: flex;
 	flex-wrap: wrap;
-	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 }

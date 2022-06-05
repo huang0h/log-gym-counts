@@ -1,6 +1,6 @@
 from flask import Flask, send_from_directory, request
 # import for development
-# from flask_cors import CORS
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from log_counts import Log
 from dotenv import load_dotenv
@@ -11,7 +11,7 @@ load_dotenv()
 
 app = Flask(__name__, static_url_path = '', static_folder = "workout2little-app/build")
 # for development 
-# CORS(app)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('REACT_APP_PG_CONNECTION')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.debug = False

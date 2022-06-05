@@ -16,23 +16,6 @@ export function validDate(date, field) {
         }
     }
 }
-// credit to https://www.joshwcomeau.com/snippets/react-hooks/use-mouse-position/ for this hook
-export const useMousePosition = () => {
-    const [
-        mousePosition,
-        setMousePosition
-    ] = React.useState({ x: null, y: null });
-    React.useEffect(() => {
-        const updateMousePosition = ev => {
-            setMousePosition({ x: ev.clientX - ev.target.offsetLeft, y: ev.clientY - ev.target.offsetTop });
-        };
-        window.addEventListener('mousemove', updateMousePosition);
-        return () => {
-            window.removeEventListener('mousemove', updateMousePosition);
-        };
-    }, []);
-    return mousePosition;
-};
 
 export function getLocationMax(loc) {
     switch (loc) {

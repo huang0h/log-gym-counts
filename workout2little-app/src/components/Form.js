@@ -18,6 +18,7 @@ const Form = (props) => {
 	// determine which are on/off
 	const [locations, setLocations] = useState(locationsArr)
 	const [timeRanges, setTimeRanges] = useState(timesArr)
+    const [rangeSelected, setRangeSelected] = useState(false)
     const [query, setQuery] = useState({
 		location: "",
 		// placeholder values
@@ -84,6 +85,7 @@ const Form = (props) => {
     }
 
     function toggleTimeRangeButton(event) {
+        setRangeSelected(false)
         // helper to convert button label into JSON
         function strToRange(str) {
             let now = DateTime.now()
@@ -187,7 +189,8 @@ const Form = (props) => {
                         />
                 )})}
             </div>
-            <SearchForm onSubmit = {submitRange} handleChange = {handleChange} data = {selfFormData} />
+            {/* <SearchForm onSubmit = {submitRange} handleChange = {handleChange} data = {selfFormData} 
+            selected = {rangeSelected} toggle = {toggleTimeRangeButton} /> */}
             {/* <form className = "range-search" onSubmit = {submitRange}>
                 <h4>
                     or range search:

@@ -1,6 +1,7 @@
 import './App.css';
 import Graph from "./components/Graph"
 import Form from "./components/Form"
+import Info from "./components/Info"
 import axios from 'axios'
 import { DateTime } from 'luxon'
 
@@ -38,6 +39,7 @@ function App() {
 			year: -1
 		}
 	})
+	const [loading, setLoading] = useState(false);
 
 	const [selectedDay, setSelectedDay] = useState("")
 
@@ -86,7 +88,8 @@ function App() {
 		// for each log, add its count to the corresponding array in hourCounts
 		// starts at 5 AM => 5 AM corresponds to index 0
 		logList.forEach(log => {
-			hourCounts[log.hour - 5].push(log.count)
+			// at some point, log.hour is capable of being 0 - i have no idea why
+			log.hour - 5  > 0 && hourCounts[log.hour - 5].push(log.count)
 		})
 
 		return hourCounts.map(countArr => {
@@ -99,16 +102,17 @@ function App() {
 		// if searchQuery has invalid fields, do nothing
 		if (searchQuery.location === ""
 		|| searchQuery.start.year === -1
-		|| searchQuery.start.year === -1) {
+		|| searchQuery.start.year === -1 || loading) {
 			return
 		}
 		// else fetch data
+		setLoading(true);
 		axios.get(
 			// for development testing
-			// `http://localhost:5000/submit`,
+			`http://localhost:5000/submit`,
 
 			// for live deployment
-			'https://log-gym-counts.herokuapp.com/submit',
+			// 'https://log-gym-counts.herokuapp.com/submit',
 			{
 			params: {
 				location: searchQuery.location,
@@ -126,20 +130,25 @@ function App() {
 				}
 			)
 			setInfo({counts: avgCountsByDay, max: getLocationMax(searchQuery.location)})
+			setLoading(false)
 		})
 	}, [searchQuery])
 
 	return (
 		<div className="App">
-			<Graph info = {
-					{...info, 
-					counts: selectedDay ? info.counts[selectedDay] : []}
-				} 
-			passSelectedDay = {setSelectedDay}
-			/>
-			<Form 
-				// give Form the ability to manipulate the App's search query
-				passSearchQuery={setSearchQuery} />
+			<div className="content">
+				{loading && <p className='loader'>loading...</p>}
+				<Graph info = {
+						{...info, 
+						counts: selectedDay ? info.counts[selectedDay] : []}
+					} 
+				passSelectedDay = {setSelectedDay}
+				/>
+				<Form 
+					// give Form the ability to manipulate the App's search query
+					passSearchQuery={setSearchQuery} />
+			</div>
+			<Info />
 		</div>
 	);
 }
