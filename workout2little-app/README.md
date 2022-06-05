@@ -3,5 +3,6 @@ This is the frontend portion of this web app. There's a lot of changes I plan on
 - making the page actually look nice
 - responsiveness so it can be used on mobile
 - light/dark mode toggle
-<br />
+- a nicer loading display
+
 I'll get around to these someday, surely.
