@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import InputButton from "./InputButton"
 import GraphBar from "./GraphBar"
 import GraphScale from "./GraphScale"

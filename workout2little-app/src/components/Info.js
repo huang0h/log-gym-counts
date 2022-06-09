@@ -15,7 +15,7 @@ export default function Info(props) {
                     made by avery huang &#169; 2022 
                     <br /><br />
                     <a href = "https://github.com/huang0h/log-gym-counts" target="_blank">
-                        <img id="gh-logo" src = {gitLogo}/>
+                        <img id="gh-logo" src = {gitLogo} alt="GitHub's Octocat logo"/>
                     </a>
                     <hr />
                 </p>

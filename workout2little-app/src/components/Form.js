@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import InputButton from "./InputButton"
-import SearchForm from "./SearchForm"
+// import SearchForm from "./SearchForm"
 import {validDate, locationsArr, timesArr} from "../external"
 import { DateTime } from "luxon"
 import "../Form.css"
@@ -129,35 +129,35 @@ const Form = (props) => {
 
     /* -------- DATE FORM STUFF -------- */
 
-    function handleChange(event) {
-        setSelfFormData({
-            ...selfFormData,
-            [event.target.id]: {
-                ...selfFormData[event.target.id],
-                [event.target.name]: event.target.value
-            }})
-    }
+    // function handleChange(event) {
+    //     setSelfFormData({
+    //         ...selfFormData,
+    //         [event.target.id]: {
+    //             ...selfFormData[event.target.id],
+    //             [event.target.name]: event.target.value
+    //         }})
+    // }
     
-    function submitRange(event) {
-        function parseObj(obj) {
-            let ans = {}
-            Object.keys(obj).forEach(key => {
-                ans = {
-                    ...ans,
-                    [key]: parseInt(obj[key])
-                }
-            })
-            return ans
-        }
+    // function submitRange(event) {
+    //     function parseObj(obj) {
+    //         let ans = {}
+    //         Object.keys(obj).forEach(key => {
+    //             ans = {
+    //                 ...ans,
+    //                 [key]: parseInt(obj[key])
+    //             }
+    //         })
+    //         return ans
+    //     }
 
-        event.preventDefault()
+    //     event.preventDefault()
        
-        // turn off all other time range buttons
-        setTimeRanges(timeRanges.map(range => ({...range, isSelected: false})))
-        setQuery({...query, start: parseObj(selfFormData.start), end: parseObj(selfFormData.end)}) 
-        // console.log(selfFormData)
-        // console.log(isValid)
-    }
+    //     // turn off all other time range buttons
+    //     setTimeRanges(timeRanges.map(range => ({...range, isSelected: false})))
+    //     setQuery({...query, start: parseObj(selfFormData.start), end: parseObj(selfFormData.end)}) 
+    //     // console.log(selfFormData)
+    //     // console.log(isValid)
+    // }
     
     return (
         <div className="form">
