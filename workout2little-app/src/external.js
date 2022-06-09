@@ -1,5 +1,3 @@
-import React from "react"
-
 // is the given entry numeric and is a valid date (e.g. no months of 100)?
 export function validDate(date, field) {
     // check if date is a number
