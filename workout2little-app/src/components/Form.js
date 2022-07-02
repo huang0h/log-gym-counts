@@ -87,10 +87,10 @@ const Form = (props) => {
     function toggleTimeRangeButton(event) {
         // setRangeSelected(false)
         // helper to convert button label into JSON
+        // let now = DateTime.now()
+        // locking the app at 6/16/2022, 11:00 PM EST - around the time i shut off the logging script    
+        let now = DateTime.fromObject({"year": 2022, "month": 6, "day": 16, hour: 23});
         function strToRange(str) {
-            // let now = DateTime.now()
-            // locking the app at 6/16/2022, 11:00 PM EST - around the time i shut off the logging script
-            let now = DateTime.fromObject({"year": 2022, "month": 6, "day": 16, hour: 23});
             switch(str) {
                 case "Last week":
                     return luxonToObj(now.minus({days: 7}))
@@ -125,7 +125,7 @@ const Form = (props) => {
         setQuery({
             ...query,
             start: newStart,
-            end: luxonToObj(DateTime.now())
+            end: luxonToObj(now)
         })
     }
 
