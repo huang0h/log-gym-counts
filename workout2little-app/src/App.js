@@ -96,10 +96,10 @@ function App() {
 		setLoading(true);
 		axios.get(
 			// for development testing
-			`http://localhost:5000/submit`,
+			// `http://localhost:5000/submit`,
 
 			// for live deployment
-			// 'https://log-gym-counts.herokuapp.com/submit',
+			'https://log-gym-counts.herokuapp.com/submit',
 			{
 			params: {
 				location: searchQuery.location,
