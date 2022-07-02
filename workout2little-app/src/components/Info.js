@@ -11,15 +11,29 @@ export default function Info(props) {
             </a>
             {expand && 
             <div className="expanded-info">
-                <p className="more-info">
+                <div className="more-info">
                     made by avery huang &#169; 2022 
                     <br /><br />
-                    <a href = "https://github.com/huang0h/log-gym-counts" target="_blank">
+                    <a href = "https://github.com/huang0h/log-gym-counts">
                         <img id="gh-logo" src = {gitLogo} alt="GitHub's Octocat logo"/>
                     </a>
+                    <div style={{color: "red"}}>
+                        <br />
+                        <h2>
+                            THIS PAGE IS NO LONGER ACCURATE!
+                        </h2>
+                        <br />
+                        <p>
+                            This app relies on Heroku's Postgres add-on to log counts. On 6/16/2022, it reached
+                            the 10,000 entry limit that comes with the add-on's free tier. Because I built this app as
+                            a way to learn about web development and not as a tool I or anyone else would use often, I decided
+                            to pull the plug on the logging script rather than pay a monthly fee. To keep the app functional,
+                            I've basically frozen it in time at 6/16/2022. So, selecting "last week" searches from 
+                            6/9/2022 - 6/16/2022, and so on. 
+                        </p>
+                    </div>
                     <hr />
-                </p>
-                
+                </div>
                 <h2>Why?</h2>
                 <br />
                 <p>

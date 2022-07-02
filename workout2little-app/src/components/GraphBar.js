@@ -1,6 +1,4 @@
-import {useState} from "react"
 import {motion} from "framer-motion"
-import { useMousePosition } from "../external"
 
 const GraphBar = (props) => {
     const {count, max, label} = props

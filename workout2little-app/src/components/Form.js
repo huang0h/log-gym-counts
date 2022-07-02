@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import InputButton from "./InputButton"
 // import SearchForm from "./SearchForm"
-import {validDate, locationsArr, timesArr} from "../external"
+import {locationsArr, timesArr} from "../external"
 import { DateTime } from "luxon"
 import "../Form.css"
 
@@ -18,7 +18,7 @@ const Form = (props) => {
 	// determine which are on/off
 	const [locations, setLocations] = useState(locationsArr)
 	const [timeRanges, setTimeRanges] = useState(timesArr)
-    const [rangeSelected, setRangeSelected] = useState(false)
+    // const [rangeSelected, setRangeSelected] = useState(false)
     const [query, setQuery] = useState({
 		location: "",
 		// placeholder values
@@ -34,18 +34,18 @@ const Form = (props) => {
 	})
 
     // form data for the range search field
-    const [selfFormData, setSelfFormData] = useState({
-        start: {
-            month: "",
-            day: "",
-            year: "",
-        }, 
-        end: {
-            month: "",
-            day: "",
-            year: "",
-        }
-    })
+    // const [selfFormData, setSelfFormData] = useState({
+    //     start: {
+    //         month: "",
+    //         day: "",
+    //         year: "",
+    //     }, 
+    //     end: {
+    //         month: "",
+    //         day: "",
+    //         year: "",
+    //     }
+    // })
 
     function luxonToObj(lux) {
         return {
@@ -85,10 +85,12 @@ const Form = (props) => {
     }
 
     function toggleTimeRangeButton(event) {
-        setRangeSelected(false)
+        // setRangeSelected(false)
         // helper to convert button label into JSON
         function strToRange(str) {
-            let now = DateTime.now()
+            // let now = DateTime.now()
+            // locking the app at 6/16/2022, 11:00 PM EST - around the time i shut off the logging script
+            let now = DateTime.fromObject({"year": 2022, "month": 6, "day": 16, hour: 23});
             switch(str) {
                 case "Last week":
                     return luxonToObj(now.minus({days: 7}))

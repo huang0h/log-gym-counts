@@ -96,10 +96,10 @@ function App() {
 		setLoading(true);
 		axios.get(
 			// for development testing
-			// `http://localhost:5000/submit`,
+			`http://localhost:5000/submit`,
 
 			// for live deployment
-			'https://log-gym-counts.herokuapp.com/submit',
+			// 'https://log-gym-counts.herokuapp.com/submit',
 			{
 			params: {
 				location: searchQuery.location,
@@ -123,6 +123,10 @@ function App() {
 
 	return (
 		<div className="App">
+			<nav style={{width: "100%", height: "50px", position: "absolute", textAlign: "center", 
+			color: "blue", fontWeight: "bold", fontSize: "1.3em", backgroundColor: "rgba(255, 0, 255, 0.5)"}}>
+				NOTE: As of 6/16/2022, this page no longer displays accurate information (see more info)
+			</nav>
 			<div className="content">
 				{loading && <p className='loader'>loading...</p>}
 				<Graph info = {
