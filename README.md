@@ -1,5 +1,9 @@
 # log-gym-counts
 
+**UPDATE 2: THIS PAGE IS NO LONGER ACTIVE**
+
+Heroku is removing their free tier in Novemeber (as I'm writing this, it's a couple of weeks before the free tier is disabled). Since this project relied on Heroku's free server hosting platform, I've disabled the app, since I don't intend on spending any money on this side project. I do plan on rebuilding this from the bottom up one day, as there's a lot of improvements I could make here; for now, though, I'm keeping this repo up as proof that I worked on this.
+
 <b>UPDATE: THIS PAGE IS NO LONGER ACCURATE</b>
 
 This app relies on Heroku's Postgres add-on to log counts. On 6/16/2022, it reached the 10,000 entry limit that comes with the add-on's free tier. Because I built this app as a way to learn about web development and not as a tool I or anyone else would use often, I decided to pull the plug on the logging script rather than pay a monthly fee. To keep the app functional, I've basically frozen it in time at 6/16/2022. So, selecting "last week" searches from 6/9/2022 - 6/16/2022, and so on.
